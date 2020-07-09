@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CodePen - Card Flip Animation #Bootstrap 4</title>
+	<meta name="viewport" content="width=device-width">
+	<link rel='stylesheet' href="/assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<section style="height:40px;">&nbsp;</section>
+<!-- partial:index.partial.html -->
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-lg-12">
+				<div class="card-flip">
+					<div class="flip">
+						<form id="add-code">
+							<div class="form-group">
+								<label for="front">正面</label>
+								<textarea class="form-control" name="front" id="front" rows="10"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="back">反面</label>
+								<textarea class="form-control" name="back" id="back" rows="10"></textarea>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row top-buffer"></div>
+		<div class="row top-buffer"></div>
+		<div class="row top-buffer"></div>
+		<div class="row top-buffer"></div>
+		<div class="row top-buffer"></div>
+		<div class="row top-buffer">
+			<div class="col-sm-12 col-lg-12">
+				<div class="d-flex justify-content-center">
+					<button type="button" id="submit" class="btn-lg btn btn-outline-success">提交</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</section>
+<!-- partial -->
+<script src='/assets/js/jquery-3.5.1.min.js'></script>
+<script src='/assets/js/tether.min.js'></script>
+<script src='/assets/js/bootstrap.min.js'></script>
+<script src='/assets/js/holder.min.js'></script>
+<script src="/assets/js/run_prettify.js"></script>
+<script src="/assets/js/script.js"></script>
+<script>
+    $(function () {
+        $("#submit").click(function () {
+            let addCodeForm = $("#add-code")
+            let formData = getFormData(addCodeForm)
+            console.log(formData)
+            if (!formData.front || !formData.back) {
+                alert("请填写所有输入框")
+            }
+            $.ajax({
+                url: "/add/code",
+                data: JSON.stringify(formData),
+                method: "POST",
+                contentType: "application/json",
+            }).done(function (data) {
+                alert(data.data)
+            });
+        })
+    })
+</script>
+</body>
+</html>
