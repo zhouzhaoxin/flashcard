@@ -32,9 +32,49 @@ func generateKnownIDs() {
 
 func getCardByID(id int) *Card {
 	var card Card
-	row := db.QueryRow("select id, type, front, back, known from cards where known=0 and id=?", id)
-	handleErr(row.Scan(&card.ID, &card.Type, &card.Front, &card.Back, &card.Known))
+	row := db.QueryRow("select id, front, back, known from cards where known=0 and id=?", id)
+	handleErr(row.Scan(&card.ID, &card.Front, &card.Back, &card.Known))
 	return &card
+}
+
+func editCard(card *Card) int64 {
+	stmt, err := db.Prepare("UPDATE cards SET front=?, back=? WHERE id=?")
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer func() {
+		handleErr(stmt.Close())
+	}()
+	rs, err := stmt.Exec(card.Front, card.Back, card.ID)
+	handleErr(err)
+	ra, err := rs.RowsAffected()
+	handleErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return ra
+}
+
+func knownCard(id int) int64 {
+	stmt, err := db.Prepare("UPDATE cards SET known=1 WHERE id=?")
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer func() {
+		handleErr(stmt.Close())
+	}()
+	rs, err := stmt.Exec(id)
+	handleErr(err)
+	ra, err := rs.RowsAffected()
+	handleErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	knownIDs = append(knownIDs[:current], knownIDs[current+1:]...)
+	current--
+	return ra
 }
 
 func getNextCard() *Card {
@@ -62,6 +102,39 @@ func getPrevCard() *Card {
 	} else {
 		return getCardByID(knownIDs[current])
 	}
-
 	return &card
+}
+
+func getCards() []*Card {
+	rows, err := db.Query("select id, front, back, known from cards")
+	defer func() {
+		err := rows.Close()
+		handleErr(err)
+	}()
+	handleErr(err)
+	var cards []*Card
+	for rows.Next() {
+		var card Card
+		err := rows.Scan(&card.ID, &card.Front, &card.Back, &card.Known)
+		handleErr(err)
+		cards = append(cards, &card)
+	}
+	return cards
+}
+
+func addCard(card *Card) {
+	exec, err := db.Exec("insert into cards(front, back, known) values(?, ?, ?)",
+		card.Front, card.Back, 0)
+	handleErr(err)
+	_, err = exec.LastInsertId()
+	handleErr(err)
+	return
+}
+
+func deleteCard(id int) int64 {
+	rs, err := db.Exec("DELETE FROM cards WHERE id=?", id)
+	handleErr(err)
+	ra, err := rs.RowsAffected()
+	handleErr(err)
+	return ra
 }

@@ -10,15 +10,27 @@ import (
 )
 
 func initRouter(r *gin.Engine) {
-	r.GET("/ping", pong)
+	// 记忆卡片
 	r.GET("/", remember)
 	r.GET("/remember/next", rememberNext)
 	r.GET("/remember/prev", rememberPrev)
+	r.GET("/known", known)
+
+	// 卡片添加
+	r.GET("/cards/add/index", cardsAddIndex)
+	r.POST("/cards/add", cardsAddHandler)
+
+	// 卡片删除
+	r.GET("/cards/delete", cardsDeleteHandler)
+
+	// 卡片编辑
+	r.POST("/cards/edit", cardsEditHandler)
+	r.GET("/cards/edit/index", cardsEditIndex)
+
+	// 卡片列表
 	r.GET("/cards", cards)
-	r.GET("/add/code/index", addCodeIndex)
-	r.GET("/add/vocab/index", addVocabIndex)
-	r.POST("/add/vocab", addVocab)
-	r.POST("/add/code", addCode)
+	r.GET("/cards/index", cardsIndex)
+
 }
 
 var db *sql.DB

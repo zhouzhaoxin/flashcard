@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>卡片列表</title>
+	<meta name="viewport" content="width=device-width">
+	<link rel='stylesheet' href="/assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<section style="height:40px;">&nbsp;</section>
+<!-- partial:index.partial.html -->
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-lg-12">
+				<ul class="list-group">
+                    {{range .cards}}
+						<li class="list-group-item" onclick="edit({{.ID}})">
+							<pre class="prettyprint" style="border: none;max-height: 100px">
+								{{.Front}}
+							</pre>
+						</li>
+                    {{end}}
+				</ul>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- partial -->
+<script src='/assets/js/jquery-3.5.1.min.js'></script>
+<script src='/assets/js/tether.min.js'></script>
+<script src='/assets/js/bootstrap.min.js'></script>
+<script src='/assets/js/holder.min.js'></script>
+<script src="/assets/js/run_prettify.js"></script>
+<script src="/assets/js/script.js"></script>
+<script>
+    function edit(id) {
+        window.location = `/cards/edit/index?id=${id}`
+    }
+</script>
+</body>
+</html>

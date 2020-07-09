@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>词汇</title>
+	<title>修改卡片</title>
 	<meta name="viewport" content="width=device-width">
 	<link rel='stylesheet' href="/assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/assets/css/style.css">
@@ -16,22 +16,26 @@
 			<div class="col-sm-12 col-lg-12">
 				<div class="card-flip">
 					<div class="flip">
-						<form id="add-code">
+						<form id="edit-code">
+							<input type="hidden" name="id" value="{{.id}}"/>
 							<div class="form-group">
 								<label for="front">正面</label>
-								<input type="text" class="form-control" id="front" name="front"
-									   placeholder="">
+								<textarea class="form-control" name="front" id="front" rows="10">{{.front}}</textarea>
 							</div>
-
 							<div class="form-group">
 								<label for="back">反面</label>
-								<textarea class="form-control" name="back" id="back" rows="15"></textarea>
+								<textarea class="form-control" name="back" id="back" rows="10">{{.back}}</textarea>
 							</div>
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
+		<div class="row top-buffer"></div>
+		<div class="row top-buffer"></div>
+		<div class="row top-buffer"></div>
+		<div class="row top-buffer"></div>
+		<div class="row top-buffer"></div>
 		<div class="row top-buffer">
 			<div class="col-sm-12 col-lg-12">
 				<div class="d-flex justify-content-center">
@@ -40,6 +44,7 @@
 			</div>
 		</div>
 	</div>
+
 </section>
 <!-- partial -->
 <script src='/assets/js/jquery-3.5.1.min.js'></script>
@@ -51,14 +56,14 @@
 <script>
     $(function () {
         $("#submit").click(function () {
-            let addCodeForm = $("#add-code")
+            let addCodeForm = $("#edit-code")
             let formData = getFormData(addCodeForm)
             console.log(formData)
             if (!formData.front || !formData.back) {
                 alert("请填写所有输入框")
             }
             $.ajax({
-                url: "/add/vocab",
+                url: "/cards/edit",
                 data: JSON.stringify(formData),
                 method: "POST",
                 contentType: "application/json",
