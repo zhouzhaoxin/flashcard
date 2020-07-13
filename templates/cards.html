@@ -26,14 +26,14 @@
 					</thead>
 					<tbody>
                     {{range .cards}}
-						<tr>
+						<tr class="text-nowrap">
 							<td>
                                 {{.ID}}
 							</td>
-							<td>
+							<td class="d-inline-block text-truncate" style="max-width: 100px;">
                                 {{.Front}}
 							</td>
-							<td>
+							<td class="d-inline-block text-truncate" style="max-width: 500px;" >
                                 {{.Back}}
 							</td>
 							<td>
