@@ -37,7 +37,7 @@ var db *sql.DB
 var err error
 
 func main() {
-	db, err = sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/flashcard?parseTime=true")
+	db, err = sql.Open("mysql", "flashcard:flashcard@tcp(127.0.0.1:3306)/flashcard?parseTime=true")
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -55,5 +55,5 @@ func main() {
 	r.Static("/assets", "./assets")
 	r.LoadHTMLGlob("templates/*")
 	initRouter(r)
-	log.Fatal(r.Run()) // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	log.Fatal(r.Run(":80")) // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
