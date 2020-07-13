@@ -14,12 +14,11 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12 col-lg-12">
-				<table class="table">
+				<table class="table table-striped">
 					<thead>
 					<tr>
 						<th scope="col">ID</th>
 						<th scope="col">Front</th>
-						<th scope="col">Back</th>
 						<th scope="col">Known</th>
 						<th scope="col">操作</th>
 					</tr>
@@ -27,14 +26,11 @@
 					<tbody>
                     {{range .cards}}
 						<tr class="text-nowrap">
-							<td>
+							<th scope="row">
                                 {{.ID}}
-							</td>
-							<td class="d-inline-block text-truncate" style="max-width: 800px;">
+							</th>
+							<td class="d-inline-block text-truncate" style="max-width: 600px;overflow: {{.Front}}">
                                 {{.Front}}
-							</td>
-							<td class="d-inline-block text-truncate" style="max-width: 500px;" >
-                                <button>helo</button>
 							</td>
 							<td>
                                 {{.Known}}
