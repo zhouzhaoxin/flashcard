@@ -47,6 +47,7 @@
                     {{end}}
 					</tbody>
 				</table>
+				<button class="btn btn-outline-danger" onclick="window.open('/', '_blank')">开始记忆</button>
 			</div>
 		</div>
 	</div>
@@ -70,7 +71,7 @@
             data: JSON.stringify(data),
             method: "POST",
             contentType: "application/json",
-        }).done(function (data) {
+        }).done(function () {
             console.log("down")
             location.reload()
         });
@@ -83,7 +84,7 @@
             data: JSON.stringify(data),
             method: "POST",
             contentType: "application/json",
-        }).done(function (data) {
+        }).done(function () {
             location.reload()
         });
     }
