@@ -14,15 +14,43 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12 col-lg-12">
-				<ul class="list-group">
+				<table class="table">
+					<thead>
+					<tr>
+						<th scope="col">ID</th>
+						<th scope="col">Front</th>
+						<th scope="col">Back</th>
+						<th scope="col">Known</th>
+						<th scope="col">操作</th>
+					</tr>
+					</thead>
+					<tbody>
                     {{range .cards}}
-						<li class="list-group-item" onclick="edit({{.ID}})">
-							<pre class="prettyprint" style="border: none;max-height: 100px">
-								{{.Front}}
-							</pre>
-						</li>
+						<tr>
+							<td>
+                                {{.ID}}
+							</td>
+							<td>
+                                {{.Front}}
+							</td>
+							<td>
+                                {{.Back}}
+							</td>
+							<td>
+                                {{.Known}}
+							</td>
+							<td>
+								<button class="btn btn-primary" onclick="edit({{.ID}})">编辑</button>
+                                {{if eq .Known 1}}
+									<button class="btn btn-warning" onclick="mark_unknown({{.ID}})">标记为未知</button>
+                                {{else}}
+									<button class="btn btn-warning" onclick="mark_known({{.ID}})">标记为已知</button>
+                                {{end}}
+							</td>
+						</tr>
                     {{end}}
-				</ul>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
@@ -36,7 +64,32 @@
 <script src="/assets/js/script.js"></script>
 <script>
     function edit(id) {
-        window.location = `/cards/edit/index?id=${id}`
+        window.open(`/cards/edit/index?id=${id}`, "_blank")
+    }
+
+    function mark_known(id) {
+        let data = {"id": `${id}`, "known": 1}
+        $.ajax({
+            url: "/cards/edit/known",
+            data: JSON.stringify(data),
+            method: "POST",
+            contentType: "application/json",
+        }).done(function (data) {
+            console.log("down")
+            location.reload()
+        });
+    }
+
+    function mark_unknown(id) {
+        let data = {"id": `${id}`, "known": 0}
+        $.ajax({
+            url: "/cards/edit/known",
+            data: JSON.stringify(data),
+            method: "POST",
+            contentType: "application/json",
+        }).done(function (data) {
+            location.reload()
+        });
     }
 </script>
 </body>

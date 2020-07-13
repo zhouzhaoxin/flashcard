@@ -32,9 +32,28 @@ func generateKnownIDs() {
 
 func getCardByID(id int) *Card {
 	var card Card
-	row := db.QueryRow("select id, front, back, known from cards where known=0 and id=?", id)
+	row := db.QueryRow("select id, front, back, known from cards where id=?", id)
 	handleErr(row.Scan(&card.ID, &card.Front, &card.Back, &card.Known))
 	return &card
+}
+
+func editCardKnown(card *Card) int64 {
+	stmt, err := db.Prepare("UPDATE cards SET known=? WHERE id=?")
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer func() {
+		handleErr(stmt.Close())
+	}()
+	rs, err := stmt.Exec(card.Known, card.ID)
+	handleErr(err)
+	ra, err := rs.RowsAffected()
+	handleErr(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return ra
 }
 
 func editCard(card *Card) int64 {
@@ -107,6 +126,23 @@ func getPrevCard() *Card {
 
 func getCards() []*Card {
 	rows, err := db.Query("select id, front, back, known from cards")
+	defer func() {
+		err := rows.Close()
+		handleErr(err)
+	}()
+	handleErr(err)
+	var cards []*Card
+	for rows.Next() {
+		var card Card
+		err := rows.Scan(&card.ID, &card.Front, &card.Back, &card.Known)
+		handleErr(err)
+		cards = append(cards, &card)
+	}
+	return cards
+}
+
+func getCardsByKnown(known int) []*Card {
+	rows, err := db.Query("select id, front, back, known from cards where known=?", known)
 	defer func() {
 		err := rows.Close()
 		handleErr(err)

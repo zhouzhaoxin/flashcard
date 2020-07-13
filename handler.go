@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 	"strconv"
 )
@@ -37,6 +38,7 @@ func cardsEditIndex(c *gin.Context) {
 	i, err := strconv.Atoi(id)
 	handleErr(err)
 	card := getCardByID(i)
+	log.Print(card)
 	c.HTML(http.StatusOK, "cards-edit.html", gin.H{"id": card.ID, "front": card.Front, "back": card.Back})
 }
 
@@ -47,6 +49,13 @@ func cardsEditHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": ra})
 }
 
+func cardsKnownEditHandler(c *gin.Context) {
+	var card Card
+	handleErr(c.BindJSON(&card))
+	ra := editCardKnown(&card)
+	c.JSON(http.StatusOK, gin.H{"data": ra})
+}
+
 // 查
 func cardsIndex(c *gin.Context) {
 	cards := getCards()
@@ -54,8 +63,10 @@ func cardsIndex(c *gin.Context) {
 }
 
 func cards(c *gin.Context) {
-	cards := getCards()
-	c.JSON(http.StatusOK, gin.H{"data": cards})
+	unknown := getCardsByKnown(0)
+	known := getCardsByKnown(1)
+
+	c.JSON(http.StatusOK, gin.H{"unknown": unknown, "known": known})
 }
 
 func remember(c *gin.Context) {

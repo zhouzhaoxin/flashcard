@@ -25,6 +25,7 @@ func initRouter(r *gin.Engine) {
 
 	// 卡片编辑
 	r.POST("/cards/edit", cardsEditHandler)
+	r.POST("/cards/edit/known", cardsKnownEditHandler)
 	r.GET("/cards/edit/index", cardsEditIndex)
 
 	// 卡片列表

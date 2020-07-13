@@ -14,6 +14,8 @@ Holder.addTheme('gray', {
 $(function () {
     let flip_button = $("#flip")
     let flip = $(".flip")
+
+    // 翻转
     flip_button.on("click", function (e) {
         let state = flip_button.data('state')
         if (state === "front") {
@@ -27,9 +29,9 @@ $(function () {
         }
     })
 
+    // 上一页
     $("#prev").on("click", function () {
         $.get("/remember/prev", function (data) {
-            console.log(data)
             if (data.card_state === 1) {
                 alert(data.card_front)
                 return
@@ -42,8 +44,11 @@ $(function () {
             }
             $("#card_back").text(data.card_back)
             $("#card_front").text(data.card_front)
+            $("card_id").val(data.card_id)
         })
     })
+
+    // 下一页
     $("#next").on("click", function () {
         $.get("/remember/next", function (data) {
             if (data.card_state === 1) {
@@ -58,15 +63,17 @@ $(function () {
             }
             $("#card_back").text(data.card_back)
             $("#card_front").text(data.card_front)
+            $("card_id").val(data.card_id)
         })
     })
 
+    // 已掌握
     $("#known").on("click", function () {
-
         let card_id = $("#card_id").val()
         $.get(`/known?id=${card_id}`, function (data) {
             if (data.card_state === 1) {
                 alert(data.card_front)
+                window.location.reload()
                 return
             }
             let state = flip_button.data('state')
