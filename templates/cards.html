@@ -40,11 +40,11 @@
                                 {{.Known}}
 							</td>
 							<td>
-								<button class="btn btn-primary" onclick="edit({{.ID}})">编辑</button>
+								<button class="btn btn-outline-primary" onclick="edit({{.ID}})">编辑</button>
                                 {{if eq .Known 1}}
-									<button class="btn btn-warning" onclick="mark_unknown({{.ID}})">标记为未知</button>
+									<button class="btn btn-outline-info" onclick="mark_unknown({{.ID}})">标记为未知</button>
                                 {{else}}
-									<button class="btn btn-warning" onclick="mark_known({{.ID}})">标记为已知</button>
+									<button class="btn btn-outline-info" onclick="mark_known({{.ID}})">标记为已知</button>
                                 {{end}}
 							</td>
 						</tr>
