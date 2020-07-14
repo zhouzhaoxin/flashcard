@@ -65,7 +65,6 @@ func cardsIndex(c *gin.Context) {
 func cards(c *gin.Context) {
 	unknown := getCardsByKnown(0)
 	known := getCardsByKnown(1)
-
 	c.JSON(http.StatusOK, gin.H{"unknown": unknown, "known": known})
 }
 
