@@ -44,7 +44,7 @@ $(function () {
             }
             $("#card_back").text(data.card_back)
             $("#card_front").text(data.card_front)
-            $("card_id").val(data.card_id)
+            $("#card_id").val(data.card_id)
         })
     })
 
@@ -63,7 +63,7 @@ $(function () {
             }
             $("#card_back").text(data.card_back)
             $("#card_front").text(data.card_front)
-            $("card_id").val(data.card_id)
+            $("#card_id").val(data.card_id)
         })
     })
 
@@ -84,6 +84,7 @@ $(function () {
             }
             $("#card_back").text(data.card_back)
             $("#card_front").text(data.card_front)
+            $("#card_id").val(data.card_id)
         })
     })
 })
