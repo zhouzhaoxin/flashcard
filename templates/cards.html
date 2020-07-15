@@ -18,11 +18,13 @@
 					<nav class="navbar navbar-light bg-light">
 						<div class="mr-4">
 							<button class="btn btn-outline-danger" onclick="window.open('/', '_blank')">开始记忆</button>
-							<button class="btn btn-outline-warning" onclick="window.open('/cards/add/index', '_blank')">添加卡片</button>
+							<button class="btn btn-outline-warning" onclick="window.open('/cards/add/index', '_blank')">
+								添加卡片
+							</button>
 						</div>
 						<form class="form-inline">
-							<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-							<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+							<input class="form-control mr-sm-2" type="search" placeholder="搜索" aria-label="Search">
+							<button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
 						</form>
 					</nav>
 				</div>
@@ -54,6 +56,7 @@
                                 {{else}}
 									<button class="btn btn-outline-info" onclick="mark_known({{.ID}})">标记为已知</button>
                                 {{end}}
+								<button class="btn btn-outline-danger" onclick="delete_card({{.ID}})">删除</button>
 							</td>
 						</tr>
                     {{end}}
@@ -95,6 +98,15 @@
             data: JSON.stringify(data),
             method: "POST",
             contentType: "application/json",
+        }).done(function () {
+            location.reload()
+        });
+    }
+
+    function delete_card(id) {
+        $.ajax({
+            url: `/cards/delete?id=${id}`,
+            method: "GET",
         }).done(function () {
             location.reload()
         });
