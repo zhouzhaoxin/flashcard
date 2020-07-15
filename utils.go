@@ -125,7 +125,7 @@ func getPrevCard() *Card {
 }
 
 func getCards() []*Card {
-	rows, err := db.Query("select id, front, back, known from cards order by konwn desc")
+	rows, err := db.Query("select id, front, back, known from cards order by known desc")
 	defer func() {
 		err := rows.Close()
 		handleErr(err)
