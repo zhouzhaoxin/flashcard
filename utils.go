@@ -20,7 +20,7 @@ func generateKnownIDs() {
 	var concatID string
 	current = -1
 	knownIDs = knownIDs[0:0]
-	row := db.QueryRow("select group_concat(id) from cards where known=0")
+	row := db.QueryRow("select group_concat(id) from cards where known=1")
 	handleErr(row.Scan(&concatID))
 	for _, id := range strings.Split(concatID, ",") {
 		id, err := strconv.Atoi(id)
@@ -76,7 +76,7 @@ func editCard(card *Card) int64 {
 }
 
 func knownCard(id int) int64 {
-	stmt, err := db.Prepare("UPDATE cards SET known=1 WHERE id=?")
+	stmt, err := db.Prepare("UPDATE cards SET known=2 WHERE id=?")
 
 	if err != nil {
 		log.Fatalln(err)

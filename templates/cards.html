@@ -47,7 +47,13 @@
                                 {{.Front}}
 							</td>
 							<td>
-                                {{.Known}}
+                                {{if eq .Known 1}}
+								未知
+								{{else if eq .Known 2}}
+								已知
+								{{else}}
+								其他
+								{{end}}
 							</td>
 							<td>
 								<button class="btn btn-outline-primary" onclick="edit({{.ID}})">编辑</button>
@@ -79,7 +85,7 @@
     }
 
     function mark_known(id) {
-        let data = {"id": `${id}`, "known": 1}
+        let data = {"id": `${id}`, "known": 2}
         $.ajax({
             url: "/cards/edit/known",
             data: JSON.stringify(data),
@@ -92,7 +98,7 @@
     }
 
     function mark_unknown(id) {
-        let data = {"id": `${id}`, "known": 0}
+        let data = {"id": `${id}`, "known": 1}
         $.ajax({
             url: "/cards/edit/known",
             data: JSON.stringify(data),
