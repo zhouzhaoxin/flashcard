@@ -159,8 +159,8 @@ func getCardsByKnown(known int) []*Card {
 }
 
 func addCard(card *Card) {
-	exec, err := db.Exec("insert into cards(front, back, known, uid, tp) values(?, ?, 1, 11,1)",
-		card.Front, card.Back, 0)
+	exec, err := db.Exec("insert into cards(front, back, known, uid, tp) values(?, ?, ?, 11,1)",
+		card.Front, card.Back, 1)
 	handleErr(err)
 	_, err = exec.LastInsertId()
 	handleErr(err)
